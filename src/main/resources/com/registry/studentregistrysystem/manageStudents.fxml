@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="813.0" prefWidth="1225.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TableView fx:id="tableManagerList" layoutX="28.0" layoutY="32.0" prefHeight="753.0" prefWidth="331.0">
+        <columns>
+          <TableColumn fx:id="managerName" prefWidth="199.0" text="C1" />
+        </columns>
+      </TableView>
+      <Button fx:id="buttonAddStudent" layoutX="1104.0" layoutY="84.0" mnemonicParsing="false" onAction="#addStudentToGroup" text="add student" />
+      <TextField fx:id="firstNameInput" layoutX="385.0" layoutY="66.0" prefHeight="62.0" prefWidth="218.0" />
+      <TextField fx:id="lastNameInput" layoutX="628.0" layoutY="66.0" prefHeight="62.0" prefWidth="210.0" />
+      <TextField fx:id="studentIdInput" layoutX="866.0" layoutY="66.0" prefHeight="62.0" prefWidth="210.0" />
+      <Label fx:id="selectedTitle" layoutX="601.0" layoutY="159.0" text="selected student:">
+         <font>
+            <Font size="33.0" />
+         </font>
+      </Label>
+      <Label fx:id="firstNameLabel" layoutX="437.0" layoutY="237.0" text="firstname">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Label>
+      <Label fx:id="lastNameLabel" layoutX="676.0" layoutY="246.0" text="lastgname">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Label>
+      <Label fx:id="studentIdLabel" layoutX="939.0" layoutY="246.0" text="id">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Label>
+      <Button fx:id="deleteEntryButton" layoutX="444.0" layoutY="394.0" mnemonicParsing="false" text="delete student entry" />
+      <Button fx:id="removeFromListButton" layoutX="653.0" layoutY="396.0" mnemonicParsing="false" text="remove student from list" />
+      <ChoiceBox fx:id="choiceGroupSelection" layoutX="875.0" layoutY="407.0" prefWidth="150.0" />
+      <Button fx:id="moveToOtherGroupButton" layoutX="1035.0" layoutY="407.0" mnemonicParsing="false" text="move to another group" />
+   </children>
+</AnchorPane>
