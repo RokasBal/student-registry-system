@@ -1,14 +1,15 @@
 package StudentData;
 
+import Utility.GetDisplayDate;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
+import static Settings.Restrictions.END_YEAR;
+import static Settings.Restrictions.START_YEAR;
 
 public class Student {
     public StringProperty firstName;
@@ -16,7 +17,7 @@ public class Student {
 
     public StringProperty studentId;
 
-    private List<List<List<String>>> attendance;
+    public List<List<List<String>>> attendance;
 
     public Student(String firstName, String lastName, String studentId) {
         this.firstName = new SimpleStringProperty(firstName);
@@ -64,6 +65,32 @@ public class Student {
         }
 
         return monthAttendance.get(day - 1);
+    }
+
+    public ArrayList<String> getAttendanceExport() {
+        ArrayList<String> export = new ArrayList<>();
+
+        for (int j = START_YEAR; j <= END_YEAR; j++) {
+            for (int k = 0; k < 12; k++) {
+                for (int i = 0; i < GetDisplayDate.getMonthLengthForExport(j, k + 1); i++) {
+                    if (j - START_YEAR < 0 || j - START_YEAR >= attendance.size()) continue;
+                    if (k + 1 < 1 || k + 1 > attendance.get(j - START_YEAR).size()) continue;
+                    if (i + 1 < 1 || i + 1 > attendance.get(j - START_YEAR).get(k).size()) continue;
+
+                    if (Objects.equals(attendance.get(j - START_YEAR).get(k).get(i), "x")) {
+                        if (k < 10) {
+                            if (i < 9) export.add(j + "-" + "0" + (k + 1) + "-0"+ (i + 1) + ", ");
+                            else export.add(j + "-" + "0" + (k + 1) + "-" + (i + 1) + ", ");
+                        } else {
+                            if (i < 9) export.add(j + "-" + (k + 1) + "-0"+ (i + 1) + ", ");
+                            else export.add(j + "-" + (k + 1) + "-" + (i + 1) + ", ");
+                        }
+                    }
+                }
+            }
+        }
+
+        return export;
     }
 
     public StringProperty getFirstName() {

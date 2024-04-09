@@ -1,6 +1,7 @@
 module com.registry.studentregistrysystem {
     requires javafx.controls;
     requires javafx.fxml;
+    requires com.opencsv;
 
 //    requires com.almasb.fxgl.all;
 

@@ -23,5 +23,8 @@
       <ChoiceBox fx:id="choiceMonth" layoutX="296.0" layoutY="361.0" prefHeight="41.0" prefWidth="228.0" />
       <Label layoutX="38.0" layoutY="335.0" prefHeight="18.0" prefWidth="171.0" text="Select year" />
       <Label layoutX="295.0" layoutY="335.0" prefHeight="18.0" prefWidth="171.0" text="Select month" />
+      <Button fx:id="buttonCSVExport" layoutX="1163.0" layoutY="193.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="187.0" text="Export to CSV" />
+      <Button fx:id="buttonCSVImport" layoutX="1163.0" layoutY="248.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="187.0" text="Import from CSV" />
+      <Button fx:id="buttonPDFExport" layoutX="1163.0" layoutY="303.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="187.0" text="Export to PDF" />
    </children>
 </AnchorPane>

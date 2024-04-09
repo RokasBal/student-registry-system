@@ -33,6 +33,11 @@ public class GetDisplayDate {
         return yearMonth.lengthOfMonth();
     }
 
+    public static int getMonthLengthForExport(int year, int month) {
+        YearMonth yearMonth = YearMonth.of(year, month);
+        return yearMonth.lengthOfMonth();
+    }
+
     public static int getMonthIndex() {
         int month = switch (controller.getMonth()) {
             case "January" -> 1;

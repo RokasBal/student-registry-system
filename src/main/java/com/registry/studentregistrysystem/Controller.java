@@ -5,11 +5,13 @@ import StudentData.Student;
 import TableViews.MainTable;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
@@ -20,6 +22,8 @@ import java.net.URL;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static Utility.CSVManager.saveToFile;
 
 public class Controller implements Initializable {
     public static Controller instance;
@@ -40,6 +44,13 @@ public class Controller implements Initializable {
     private Label labelGroupSelection;
     @FXML
     private TableView<Student> tableStudentList;
+    @FXML
+    private Button buttonCSVExport;
+    @FXML
+    private Button buttonCSVImport;
+    @FXML
+    private Button buttonPDFExport;
+
     public static Group currentGroup;
     public static ArrayList<Group> groups = new ArrayList<>();
     public int counter = -2;
@@ -76,6 +87,8 @@ public class Controller implements Initializable {
 
         choiceYear.setValue(2024);
         choiceMonth.setValue("April");
+
+        buttonCSVExport.setOnAction(this::saveToCSV);
 
         firstLoadComplete = true;
     }
@@ -171,6 +184,10 @@ public class Controller implements Initializable {
     public String getMonth() {
         if (!firstLoadComplete) return month;
         else return choiceMonth.getValue();
+    }
+
+    private void saveToCSV(ActionEvent actionEvent) {
+        saveToFile(groups, "src/output/loanData.csv");
     }
 
     public static ArrayList<Group> getGroupsArray() {
