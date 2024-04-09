@@ -3,7 +3,8 @@ package com.registry.studentregistrysystem;
 import StudentData.Group;
 import StudentData.Student;
 import TableViews.MainTable;
-import TableViews.ManagerStudentTable;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,12 +17,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDate;
-import java.time.Month;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Controller implements Initializable {
     public static Controller instance;
@@ -44,13 +42,17 @@ public class Controller implements Initializable {
     private TableView<Student> tableStudentList;
     public static Group currentGroup;
     public ArrayList<Group> groups = new ArrayList<>();
-    public int counter = 0;
+    public int counter = -2;
+
+    private ManagerController managerController;
 
     public Controller() {}
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        managerController = new ManagerController(this);
+
         makeNewGroup();
         makeNewGroup();
         labelGroupSelection.setText("Current group: ungrouped");
@@ -64,6 +66,17 @@ public class Controller implements Initializable {
         choiceMonth.getItems().addAll(months);
         choiceMonth.setOnAction(this::uponMonthSelection);
 
+//        boxStudentSelection.setOnAction(this::switchGroup);
+        boxStudentSelection.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
+                switchGroup(newValue);
+            }
+        });
+
+        choiceYear.setValue(2024);
+        choiceMonth.setValue("April");
+
         firstLoadComplete = true;
     }
 
@@ -76,32 +89,50 @@ public class Controller implements Initializable {
 
     public void openStudentManager() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("manageStudents.fxml"));
-        ManagerController managerController = new ManagerController(this);
         fxmlLoader.setController(managerController);
         Scene manager = new Scene(fxmlLoader.load(), 1225, 813);
         Stage stage = new Stage();
 
         stage.setScene(manager);
         stage.show();
+
+        managerController.refreshTable();
     }
 
     public void makeNewGroup() {
-        Group group = new Group(counter - 2);
+        Group group = new Group(counter);
         groups.add(group);
         currentGroup = group;
-        counter++;
         if(currentGroup.groupId == -2) boxStudentSelection.getItems().add("All students");
         else if(currentGroup.groupId == -1) boxStudentSelection.getItems().add("Ungrouped students");
         else {
-            boxStudentSelection.getItems().add("Group " + counter);
-            boxStudentSelection.setValue("Group " + counter);
+            boxStudentSelection.getItems().add("Group " + (counter + 1));
+            boxStudentSelection.setValue("Group " + (counter + 1));
         }
-        System.out.println("Success");
+        System.out.println("New group made! counter: " + counter);
+        counter++;
     }
 
-    public void switchGroup(ActionEvent actionEvent) {
-        currentGroup = groups.get(Integer.parseInt(boxStudentSelection.getValue()));
-        labelGroupSelection.setText("Current group: " + (boxStudentSelection.getValue() + 1));
+    public void switchGroup(String selectedValue) {
+        if (selectedValue == null) {
+            return; // Nothing selected yet
+        }
+
+        if (Objects.equals(boxStudentSelection.getValue(), "All students")) currentGroup = groups.getFirst();
+        else if (Objects.equals(boxStudentSelection.getValue(), "Ungrouped students")) currentGroup = groups.get(1);
+        else {
+            Pattern pattern = Pattern.compile("\\d+");
+            Matcher matcher = pattern.matcher(boxStudentSelection.getValue());
+            if (matcher.find()) {
+                int groupNumber = Integer.parseInt(matcher.group()); // Extract the matched number as an integer
+                currentGroup = groups.get(groupNumber + 1);
+            }
+        }
+
+        remakeTable();
+        managerController.refreshTable();
+
+        System.out.println("Current group: " + currentGroup.groupId);
     }
 
     public static Group getCurrentGroup() {
@@ -121,10 +152,11 @@ public class Controller implements Initializable {
         remakeTable();
     }
 
-    private void remakeTable() {
+    public void remakeTable() {
         MainTable mainTable = new MainTable(this);
         TableView<Student> tableView = mainTable.createTableView();
         tableStudentList.getColumns().setAll(tableView.getColumns());
+        tableStudentList.setItems(currentGroup.getStudentsForTable());
     }
 
     public int getYear() {

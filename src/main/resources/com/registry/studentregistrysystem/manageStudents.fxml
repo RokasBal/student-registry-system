@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -44,5 +45,7 @@
       <Button fx:id="removeFromListButton" layoutX="653.0" layoutY="396.0" mnemonicParsing="false" text="remove student from list" />
       <ChoiceBox fx:id="choiceGroupSelection" layoutX="875.0" layoutY="407.0" prefWidth="150.0" />
       <Button fx:id="moveToOtherGroupButton" layoutX="1035.0" layoutY="407.0" mnemonicParsing="false" text="move to another group" />
+      <Label fx:id="currentGroupLabel" layoutX="385.0" layoutY="23.0" text="Current group: " />
+      <DatePicker fx:id="markAttendancePicker" layoutX="653.0" layoutY="553.0" prefHeight="42.0" prefWidth="170.0" />
    </children>
 </AnchorPane>

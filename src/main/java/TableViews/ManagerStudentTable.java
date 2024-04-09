@@ -27,7 +27,7 @@ public class ManagerStudentTable extends AbsTableView<Student> {
         lastNameColumn.setCellValueFactory(cellData -> cellData.getValue().getLastName());
 
         TableColumn<Student, String> studentIdColumn = new TableColumn<>("Student ID");
-        lastNameColumn.setCellValueFactory(cellData -> cellData.getValue().getStudentId());
+        studentIdColumn.setCellValueFactory(cellData -> cellData.getValue().getStudentId());
 
         tableView.getColumns().addAll(firstNameColumn, lastNameColumn, studentIdColumn);
 

@@ -37,15 +37,22 @@ public class MainTable extends AbsTableView<Student> {
         tableView.getColumns().addAll(firstNameColumn, lastNameColumn);
 
         for (int i = 1; i <= GetDisplayDate.getMonthLength(); i++) {
-            TableColumn<Student, String> column = new TableColumn<>("" + i);
+            TableColumn<Student, String> column = new TableColumn<>(String.valueOf(i));
             column.setPrefWidth(30);
-            StringProperty string = new SimpleStringProperty("x");
-            column.setCellValueFactory(data -> string);
+            int day = i;
+            column.setCellValueFactory(data -> {
+                StringProperty property = new SimpleStringProperty();
+                String attendanceValue = data.getValue().getAttendance(controller.getYear(), GetDisplayDate.getMonthIndex(), day);
+                // Handle null attendance values
+                if (attendanceValue == null) {
+                    property.setValue(""); // or set any other representation for absence
+                } else {
+                    property.setValue(attendanceValue);
+                }
+                return property;
+            });
             tableView.getColumns().add(column);
         }
-
-        ScrollPane scrollPane = new ScrollPane(tableView);
-        scrollPane.setFitToWidth(true);
 
         return tableView;
     }
