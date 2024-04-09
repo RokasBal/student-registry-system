@@ -4,18 +4,17 @@ import StudentData.Group;
 import StudentData.Student;
 import TableViews.MainTable;
 import Utility.CSVManager;
+import Utility.PDFExport;
+import com.itextpdf.text.DocumentException;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.FileNotFoundException;
@@ -52,10 +51,14 @@ public class Controller implements Initializable {
     private Button buttonCSVImport;
     @FXML
     private Button buttonPDFExport;
+    @FXML
+    private ToggleButton toggleAttendance;
 
     public static Group currentGroup;
+    public static Group allStudentsGroup;
     public static ArrayList<Group> groups = new ArrayList<>();
     public int counter = -2;
+    public boolean attendanceToggle;
 
     private ManagerController managerController;
     private CSVManager csvManager;
@@ -93,6 +96,8 @@ public class Controller implements Initializable {
 
         buttonCSVExport.setOnAction(this::saveToCSV);
         buttonCSVImport.setOnAction(this::importFromCSV);
+        buttonPDFExport.setOnAction(this::exportToPDF);
+        toggleAttendance.setOnAction(this::toggleAttendance);
 
         csvManager = new CSVManager(this);
 
@@ -122,7 +127,10 @@ public class Controller implements Initializable {
         Group group = new Group(counter);
         groups.add(group);
         currentGroup = group;
-        if(currentGroup.groupId == -2) boxStudentSelection.getItems().add("All students");
+        if(currentGroup.groupId == -2) {
+            boxStudentSelection.getItems().add("All students");
+            allStudentsGroup = group;
+        }
         else if(currentGroup.groupId == -1) boxStudentSelection.getItems().add("Ungrouped students");
         else {
             boxStudentSelection.getItems().add("Group " + (counter + 1));
@@ -225,6 +233,19 @@ public class Controller implements Initializable {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    private void exportToPDF(ActionEvent actionEvent) {
+        try {
+            PDFExport.exportToPDF(tableStudentList, "src/output/studentList.pdf", this);
+        } catch (IOException | DocumentException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void toggleAttendance(ActionEvent actionEvent) {
+        attendanceToggle = toggleAttendance.isSelected();
+        remakeTable();
     }
 
     public static ArrayList<Group> getGroupsArray() {

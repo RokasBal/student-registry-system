@@ -13,6 +13,11 @@ public class GetDisplayDate {
     }
 
     public static int getMonthLength() {
+        if (controller.getMonth() == null) {
+            // Handle the case where the month string is null
+            return 0; // or throw an exception, depending on your requirements
+        }
+
         int month = switch (controller.getMonth()) {
             case "January" -> 1;
             case "February" -> 2;

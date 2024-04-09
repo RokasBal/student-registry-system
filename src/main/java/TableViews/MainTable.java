@@ -10,6 +10,10 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 
+import java.util.Objects;
+
+import static com.registry.studentregistrysystem.Controller.getCurrentGroup;
+
 public class MainTable extends AbsTableView<Student> {
 
     public int[] monthLenghts = new int[12];
@@ -37,6 +41,17 @@ public class MainTable extends AbsTableView<Student> {
         tableView.getColumns().addAll(firstNameColumn, lastNameColumn);
 
         for (int i = 1; i <= GetDisplayDate.getMonthLength(); i++) {
+            if (controller.attendanceToggle) {
+                boolean attendanceFound = false;
+                for (Student student : getCurrentGroup().groupStudents) {
+                    if (Objects.equals(student.getAttendance(controller.getYear(), GetDisplayDate.getMonthIndex(), i), "x")) {
+                        attendanceFound = true;
+                        break;
+                    }
+                }
+                if (!attendanceFound) continue;
+            }
+
             TableColumn<Student, String> column = new TableColumn<>(String.valueOf(i));
             column.setPrefWidth(30);
             int day = i;

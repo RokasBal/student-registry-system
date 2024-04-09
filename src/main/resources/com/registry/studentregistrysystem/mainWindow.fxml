@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="889.0" prefWidth="1391.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.registry.studentregistrysystem.Controller">
@@ -25,6 +26,7 @@
       <Label layoutX="295.0" layoutY="335.0" prefHeight="18.0" prefWidth="171.0" text="Select month" />
       <Button fx:id="buttonCSVExport" layoutX="1163.0" layoutY="193.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="187.0" text="Export to CSV" />
       <Button fx:id="buttonCSVImport" layoutX="1163.0" layoutY="248.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="187.0" text="Import from CSV" />
-      <Button fx:id="buttonPDFExport" layoutX="1163.0" layoutY="303.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="187.0" text="Export to PDF" />
+      <Button fx:id="buttonPDFExport" layoutX="1163.0" layoutY="303.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="187.0" text="Export month table to PDF" />
+      <ToggleButton fx:id="toggleAttendance" layoutX="564.0" layoutY="355.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="278.0" text="Show days with attendance only" />
    </children>
 </AnchorPane>

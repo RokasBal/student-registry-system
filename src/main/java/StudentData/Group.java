@@ -1,5 +1,6 @@
 package StudentData;
 
+import com.registry.studentregistrysystem.Controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 

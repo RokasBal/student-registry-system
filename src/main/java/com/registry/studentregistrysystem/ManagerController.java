@@ -64,7 +64,9 @@ public class ManagerController implements Initializable {
     public void addStudentToGroup() {
         Student student = new Student(firstNameInput.getText(), lastNameInput.getText(), studentIdInput.getText());
         Group group = getCurrentGroup();
+        if (group.groupId == -2) return;
         group.addStudent(student);
+        getGroupsArray().getFirst().addStudent(student);
         tableManagerList.setItems(group.getStudentsForTable());
         tableManagerList.refresh();
         w1Controller.addStudentToTable();
@@ -108,6 +110,7 @@ public class ManagerController implements Initializable {
 
     public void deleteStudentEntry(ActionEvent actionEvent) {
         if (rowData != null) {
+            if (currentGroup.groupId == -2) return;
             getCurrentGroup().removeStudent(rowData);
             refreshTable();
             w1Controller.remakeTable();
@@ -141,6 +144,7 @@ public class ManagerController implements Initializable {
 
     public void removeStudentFromList(ActionEvent actionEvent) {
         if (rowData != null) {
+            if (currentGroup.groupId == -2) return;
             getUngroupedGroup().addStudent(rowData);
             getCurrentGroup().removeStudent(rowData);
             refreshTable();
@@ -152,6 +156,7 @@ public class ManagerController implements Initializable {
 
     public void moveStudentToAnotherGroup(ActionEvent actionEvent) {
         if (rowData != null) {
+            if (currentGroup.groupId == -2) return;
             Pattern pattern = Pattern.compile("\\d+");
             Matcher matcher = pattern.matcher(choiceGroupSelection.getValue());
             if (matcher.find()) {

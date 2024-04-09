@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class CSVManager {
     private static Controller controller;
@@ -60,6 +61,14 @@ public class CSVManager {
                 String studentId = nextRecord[3];
                 String attendace = nextRecord[4];
                 if (previousId != groupId) {
+                    int tempId = groupId - 1;
+                    while (tempId != previousId) {
+                        groups.add(new Group(tempId));
+                        if (groupId != -1) controller.addEntryToGroupChoiceBox("Group " + (tempId + 1));
+                        tempId--;
+                        controller.increaseCounter();
+                    }
+
                     groups.add(new Group(groupId));
                     if (groupId != -1) controller.addEntryToGroupChoiceBox("Group " + (groupId + 1));
                     previousId = groupId;
@@ -67,10 +76,13 @@ public class CSVManager {
                 }
                 Student student = new Student(firstName, lastName, studentId);
                 List<int[]>  dates = parseDates(attendace);
-                for (int[] date : dates) {
-                    student.markAttendance(date[0], date[1], date[2], "x");
+                if (dates != null) {
+                    for (int[] date : dates) {
+                        student.markAttendance(date[0], date[1], date[2], "x");
+                    }
                 }
                 groups.getLast().addStudent(student);
+                groups.getFirst().addStudent(student);
 
                 System.out.println(groups.getLast().groupId + " " + groups.getLast().groupStudents.getLast().firstName + " " +  groups.getLast().groupStudents.getLast().lastName);
             }
@@ -79,11 +91,14 @@ public class CSVManager {
         } catch (CsvValidationException e) {
             throw new RuntimeException(e);
         }
+        controller.increaseCounter();
         return groups;
     }
 
     public static ArrayList<int[]> parseDates(String datesString) {
         ArrayList<int[]> dates = new ArrayList<>();
+
+        if (Objects.equals(datesString, "[]")) return null;
 
         datesString = datesString.substring(1, datesString.length() - 2).trim();
 
