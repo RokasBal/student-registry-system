@@ -3,6 +3,7 @@ package com.registry.studentregistrysystem;
 import StudentData.Group;
 import StudentData.Student;
 import TableViews.MainTable;
+import Utility.CSVManager;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
@@ -17,6 +18,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
@@ -56,6 +58,7 @@ public class Controller implements Initializable {
     public int counter = -2;
 
     private ManagerController managerController;
+    private CSVManager csvManager;
 
     public Controller() {}
 
@@ -89,6 +92,9 @@ public class Controller implements Initializable {
         choiceMonth.setValue("April");
 
         buttonCSVExport.setOnAction(this::saveToCSV);
+        buttonCSVImport.setOnAction(this::importFromCSV);
+
+        csvManager = new CSVManager(this);
 
         firstLoadComplete = true;
     }
@@ -156,6 +162,29 @@ public class Controller implements Initializable {
         return groups.get(1);
     }
 
+    public ArrayList<Group> getGroups() {
+        return groups;
+    }
+
+    public void clearGroups() {
+        groups.clear();
+        boxStudentSelection.getItems().clear();
+        counter = -2;
+    }
+
+    public void increaseCounter() {
+        counter++;
+    }
+
+    public void addEntryToGroupChoiceBox(String string) {
+        boxStudentSelection.getItems().add(string);
+    }
+
+    public void setCurrentGroup(Group group, String string) {
+        boxStudentSelection.setValue(string);
+        currentGroup = group;
+    }
+
     public void addStudentToTable() {
         tableStudentList.setItems(currentGroup.getStudentsForTable());
         tableStudentList.refresh();
@@ -187,7 +216,15 @@ public class Controller implements Initializable {
     }
 
     private void saveToCSV(ActionEvent actionEvent) {
-        saveToFile(groups, "src/output/loanData.csv");
+        saveToFile(groups, "src/output/studentData.csv");
+    }
+
+    private void importFromCSV(ActionEvent actionEvent) {
+        try {
+            groups = CSVManager.importFromCSV("src/output/studentData.csv");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public static ArrayList<Group> getGroupsArray() {

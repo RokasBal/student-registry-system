@@ -1,0 +1,5 @@
+Group ID,Student's First Name,Student's Last Name,Student ID,Attendance
+-1,testUngrouped,testUngrouped,testUngrouped,"[2024-04-01, , 2024-04-02, ]"
+0,a,a,a,"[2024-04-03, , 2024-04-05, ]"
+0,b,b,b,"[2024-04-04, , 2024-04-06, ]"
+1,cx,cx,,"[2024-04-10, ]"
