@@ -41,7 +41,7 @@ public class Controller implements Initializable {
     @FXML
     private TableView<Student> tableStudentList;
     public static Group currentGroup;
-    public ArrayList<Group> groups = new ArrayList<>();
+    public static ArrayList<Group> groups = new ArrayList<>();
     public int counter = -2;
 
     private ManagerController managerController;
@@ -131,12 +131,16 @@ public class Controller implements Initializable {
 
         remakeTable();
         managerController.refreshTable();
+        labelGroupSelection.setText("Current group: " + boxStudentSelection.getValue());
 
         System.out.println("Current group: " + currentGroup.groupId);
     }
 
     public static Group getCurrentGroup() {
         return currentGroup;
+    }
+    public static Group getUngroupedGroup() {
+        return groups.get(1);
     }
 
     public void addStudentToTable() {
@@ -167,5 +171,9 @@ public class Controller implements Initializable {
     public String getMonth() {
         if (!firstLoadComplete) return month;
         else return choiceMonth.getValue();
+    }
+
+    public static ArrayList<Group> getGroupsArray() {
+        return groups;
     }
 }

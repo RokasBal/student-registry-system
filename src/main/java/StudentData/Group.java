@@ -24,4 +24,10 @@ public class Group {
     public ObservableList<Student> getStudentsForTable() {
         return dataList;
     }
+
+    public void removeStudent(Student student) {
+        groupStudents.remove(student);
+        dataList.remove(student);
+        if (groupStudents.isEmpty()) dataList.clear();
+    }
 }

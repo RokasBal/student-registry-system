@@ -15,10 +15,13 @@ import javafx.scene.control.*;
 
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import static com.registry.studentregistrysystem.Controller.getCurrentGroup;
+import static com.registry.studentregistrysystem.Controller.*;
 
 public class ManagerController implements Initializable {
     @FXML
@@ -83,6 +86,7 @@ public class ManagerController implements Initializable {
                 if (newValue != null) {
                     rowData = newValue;
                     refreshSelection();
+                    fillGroupSelectionBox();
                 }
             }
         });
@@ -93,20 +97,23 @@ public class ManagerController implements Initializable {
         markAttendancePicker.setOnAction(this::markAttendance);
         LocalDate minDate = LocalDate.of(2023, 1, 1);
         LocalDate maxDate = LocalDate.of(2024, 12, 31);
-        markAttendancePicker.setDayCellFactory(d ->
-                new DateCell() {
-                    @Override public void updateItem(LocalDate item, boolean empty) {
-                        super.updateItem(item, empty);
-                        setDisable(item.isAfter(maxDate) || item.isBefore(minDate));
-                    }});
+        markAttendancePicker.setDayCellFactory(d -> new DateCell() {
+                    @Override public void updateItem(LocalDate item, boolean empty) {super.updateItem(item, empty); setDisable(item.isAfter(maxDate) || item.isBefore(minDate));}});
+
+        deleteEntryButton.setOnAction(this::deleteStudentEntry);
+        removeFromListButton.setOnAction(this::removeStudentFromList);
+        moveToOtherGroupButton.setOnAction(this::moveStudentToAnotherGroup);
+
     }
 
-    public void remakeTable() {
-        ManagerStudentTable table = new ManagerStudentTable(w1Controller);
-        TableView<Student> tableView = table.createTableView();
-        tableManagerList.getColumns().setAll(tableView.getColumns());
-//        tableManagerList.setItems(getCurrentGroup().getStudentsForTable());
-        System.out.println("Attempting to remake table");
+    public void deleteStudentEntry(ActionEvent actionEvent) {
+        if (rowData != null) {
+            getCurrentGroup().removeStudent(rowData);
+            refreshTable();
+            w1Controller.remakeTable();
+            rowData = null;
+            System.out.println("Entry deleted");
+        }
     }
 
     public void refreshTable() {
@@ -116,6 +123,7 @@ public class ManagerController implements Initializable {
         else if (getCurrentGroup().groupId == -1) currentGroupLabel.setText("Current group: ungrouped students");
         else currentGroupLabel.setText("Current group: " + (getCurrentGroup().groupId + 1));
         clearStudentSelection();
+        tableManagerList.getSelectionModel().clearSelection();
     }
 
     public void refreshSelection() {
@@ -131,6 +139,44 @@ public class ManagerController implements Initializable {
         rowData = null;
     }
 
+    public void removeStudentFromList(ActionEvent actionEvent) {
+        if (rowData != null) {
+            getUngroupedGroup().addStudent(rowData);
+            getCurrentGroup().removeStudent(rowData);
+            refreshTable();
+            w1Controller.remakeTable();
+            rowData = null;
+            System.out.println("Student removed from group");
+        }
+    }
+
+    public void moveStudentToAnotherGroup(ActionEvent actionEvent) {
+        if (rowData != null) {
+            Pattern pattern = Pattern.compile("\\d+");
+            Matcher matcher = pattern.matcher(choiceGroupSelection.getValue());
+            if (matcher.find()) {
+                int groupNumber = Integer.parseInt(matcher.group()); // Extract the matched number as an integer
+                groups.get(groupNumber + 1).addStudent(rowData);
+            } else return;
+            getCurrentGroup().removeStudent(rowData);
+            refreshTable();
+            w1Controller.remakeTable();
+            rowData = null;
+            System.out.println("Student removed from group");
+        }
+    }
+
+    public void fillGroupSelectionBox() {
+        choiceGroupSelection.getItems().clear();
+        ArrayList<Group> groups = getGroupsArray();
+        int i = 0;
+        for (Group group : groups) {
+            if (!(group.groupId == -2 || group.groupId == -1 || group.groupId == getCurrentGroup().groupId)) {
+                choiceGroupSelection.getItems().add("Group " + (group.groupId + 1));
+            }
+        }
+    }
+
     public void markAttendance(ActionEvent actionEvent) {
         if (rowData == null) markAttendancePicker.setValue(null);
         else {
@@ -144,5 +190,7 @@ public class ManagerController implements Initializable {
         }
         System.out.println("Date selected");
         System.out.println("Attendance array: " + rowData.getAttendance(markAttendancePicker.getValue().getYear(), markAttendancePicker.getValue().getMonthValue(), markAttendancePicker.getValue().getDayOfMonth()));
+
+        markAttendancePicker.setValue(null);
     }
 }

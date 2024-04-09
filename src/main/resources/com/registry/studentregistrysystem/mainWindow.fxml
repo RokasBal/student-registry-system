@@ -7,9 +7,9 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1070.0" prefWidth="1814.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.registry.studentregistrysystem.Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="889.0" prefWidth="1391.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.registry.studentregistrysystem.Controller">
    <children>
-       <TableView fx:id="tableStudentList" layoutX="38.0" layoutY="437.0" prefHeight="587.0" prefWidth="1738.0">
+       <TableView fx:id="tableStudentList" layoutX="38.0" layoutY="437.0" prefHeight="411.0" prefWidth="1312.0">
         <columns>
           <TableColumn prefWidth="230.0" text="Student" />
           <TableColumn minWidth="0.0" prefWidth="468.0" text="C2" />
