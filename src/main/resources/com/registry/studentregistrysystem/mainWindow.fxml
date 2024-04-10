@@ -16,17 +16,17 @@
           <TableColumn minWidth="0.0" prefWidth="468.0" text="C2" />
         </columns>
       </TableView>
-      <Button fx:id="buttonManageStudents" layoutX="703.0" layoutY="54.0" mnemonicParsing="false" onAction="#openStudentManager" prefHeight="53.0" prefWidth="287.0" text="Manage group students" />
-      <Button fx:id="buttonManeNewGroup" layoutX="380.0" layoutY="54.0" mnemonicParsing="false" onAction="#makeNewGroup" prefHeight="53.0" prefWidth="287.0" text="Make new student group" />
-      <ChoiceBox fx:id="boxStudentSelection" layoutX="54.0" layoutY="51.0" prefHeight="59.0" prefWidth="287.0" value="Ungrouped students" />
-      <Label fx:id="labelGroupSelection" layoutX="54.0" layoutY="25.0" prefHeight="18.0" prefWidth="287.0" text="Select group:" />
-      <ChoiceBox fx:id="choiceYear" layoutX="38.0" layoutY="361.0" prefHeight="41.0" prefWidth="228.0" />
-      <ChoiceBox fx:id="choiceMonth" layoutX="296.0" layoutY="361.0" prefHeight="41.0" prefWidth="228.0" />
-      <Label layoutX="38.0" layoutY="335.0" prefHeight="18.0" prefWidth="171.0" text="Select year" />
-      <Label layoutX="295.0" layoutY="335.0" prefHeight="18.0" prefWidth="171.0" text="Select month" />
-      <Button fx:id="buttonCSVExport" layoutX="1163.0" layoutY="193.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="187.0" text="Export to CSV" />
-      <Button fx:id="buttonCSVImport" layoutX="1163.0" layoutY="248.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="187.0" text="Import from CSV" />
-      <Button fx:id="buttonPDFExport" layoutX="1163.0" layoutY="303.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="187.0" text="Export month table to PDF" />
-      <ToggleButton fx:id="toggleAttendance" layoutX="564.0" layoutY="355.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="278.0" text="Show days with attendance only" />
+      <Button fx:id="buttonManageStudents" layoutX="588.0" layoutY="112.0" mnemonicParsing="false" onAction="#openStudentManager" prefHeight="53.0" prefWidth="228.0" text="Manage group students" />
+      <Button fx:id="buttonManeNewGroup" layoutX="313.0" layoutY="112.0" mnemonicParsing="false" onAction="#makeNewGroup" prefHeight="53.0" prefWidth="228.0" text="Make new student group" />
+      <ChoiceBox fx:id="boxStudentSelection" layoutX="38.0" layoutY="109.0" prefHeight="59.0" prefWidth="228.0" value="Ungrouped students" />
+      <Label fx:id="labelGroupSelection" layoutX="38.0" layoutY="80.0" prefHeight="18.0" prefWidth="287.0" text="Select student group:" />
+      <ChoiceBox fx:id="choiceYear" layoutX="38.0" layoutY="355.0" prefHeight="53.0" prefWidth="228.0" />
+      <ChoiceBox fx:id="choiceMonth" layoutX="313.0" layoutY="353.0" prefHeight="53.0" prefWidth="228.0" />
+      <Label layoutX="38.0" layoutY="326.0" prefHeight="18.0" prefWidth="171.0" text="Select year:" />
+      <Label layoutX="313.0" layoutY="326.0" prefHeight="18.0" prefWidth="171.0" text="Select month:" />
+      <Button fx:id="buttonCSVExport" layoutX="1163.0" layoutY="269.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="187.0" text="Export data to CSV" />
+      <Button fx:id="buttonCSVImport" layoutX="1163.0" layoutY="324.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="187.0" text="Import data from CSV" />
+      <Button fx:id="buttonPDFExport" layoutX="1163.0" layoutY="379.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="187.0" text="Export table to PDF" />
+      <ToggleButton fx:id="toggleAttendance" layoutX="588.0" layoutY="353.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="228.0" text="Show days with attendance only" />
    </children>
 </AnchorPane>
